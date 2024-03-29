@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "exercism_azure_functions": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7264",
+      "launchBrowser": false
+    }
+  }
+}

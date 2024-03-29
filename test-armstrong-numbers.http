@@ -1,0 +1,33 @@
+@host = https://jc-exercism.azurewebsites.net
+
+{{
+    exports.tests = [
+        ['Zero is Armstrong numbers',                               0,          true],
+        ['Single digits are Armstrong numbers',                     5,          true],
+        ['There are no two digit Armstrong numbers',                10,         false],
+        ['A seven digit number that is an Armstrong number',        9926315,    true],
+        ['A seven digit number that is not an Armstrong number',    9926314,    false]
+    ];
+}}
+
+### 
+# @loop for test of tests
+
+@description = {{test[0]}}
+@number = {{test[1]}}
+@expected = {{test[2]}}
+{{
+    console.info(description);
+}}
+
+/api/armstrong-numbers?number={{number}}
+
+?? status == 200
+?? body isArmstrongNumber == {{expected}}
+
+### 
+/api/armstrong-numbers
+
+?? status == 400
+?? body message exists
+?? body message equals Please pass a number on the query string
