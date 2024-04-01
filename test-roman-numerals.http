@@ -1,0 +1,21 @@
+@host = https://exercism.azurewebsites.net
+
+{{
+    const loadTestData = require('./load-test-data');
+    exports.testCases = loadTestData('roman-numerals-test-cases.json');
+}}
+
+### Convert arabic numbers to roman numerals
+# @loop for testCase of testCases
+{{
+    httpRegion.metaData.title = testCase.description
+}}
+/api/roman-numerals?number={{testCase.number}}
+?? status == 200
+?? body roman == {{testCase.expected}}
+
+### Error when number is not specified
+/api/roman-numerals
+?? status == 400
+?? body message exists
+?? body message equals Please pass a number on the query string
