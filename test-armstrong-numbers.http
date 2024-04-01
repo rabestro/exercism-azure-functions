@@ -1,4 +1,4 @@
-@host = https://jc-exercism.azurewebsites.net
+@host = https://exercism.azurewebsites.net
 
 {{
     exports.sampleData = [
