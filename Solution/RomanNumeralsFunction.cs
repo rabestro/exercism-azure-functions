@@ -4,30 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace Exercism.Solution
+namespace Exercism.Solution;
+
+public class RomanNumeralsFunction(ILogger<ArmstrongNumbersFunction> logger)
 {
-    public class RomanNumeralsFunction(ILogger<ArmstrongNumbersFunction> logger)
+    [Function("roman-numerals")]
+    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
     {
-        [Function("roman-numerals")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        logger.LogInformation("Roman Numerals function processed a request.");
+
+        var numberString = req.Query["number"];
+
+        if (string.IsNullOrEmpty(numberString) || !int.TryParse(numberString, out var number))
         {
-            logger.LogInformation("Roman Numerals function processed a request.");
-
-            var numberString = req.Query["number"];
-
-            if (string.IsNullOrEmpty(numberString) || !int.TryParse(numberString, out var number))
-            {
-                return new BadRequestObjectResult(new { message = "Please pass a number on the query string" });
-            }
-
-            var roman = number.ToRoman();
-            return new OkObjectResult(new { roman });
+            return new BadRequestObjectResult(new { message = "Please pass a number on the query string" });
         }
-    }
 
-    public static class RomanNumeralExtension
-    {
-        private static readonly Dictionary<int, string> ArabicToRoman = new()
+        var roman = number.ToRoman();
+        return new OkObjectResult(new { roman });
+    }
+}
+
+public static class RomanNumeralExtension
+{
+    private static readonly Dictionary<int, string> ArabicToRoman = new()
     {
         { 1000, "M" },
         { 900, "CM" },
@@ -44,19 +44,18 @@ namespace Exercism.Solution
         { 1, "I" }
     };
 
-        public static string ToRoman(this int value)
+    public static string ToRoman(this int value)
+    {
+        StringBuilder roman = new();
+        foreach (var (threshold, numeral) in ArabicToRoman)
         {
-            StringBuilder roman = new();
-            foreach (var (threshold, numeral) in ArabicToRoman)
+            while (threshold <= value)
             {
-                while (threshold <= value)
-                {
-                    roman.Append(numeral);
-                    value -= threshold;
-                }
+                roman.Append(numeral);
+                value -= threshold;
             }
-
-            return roman.ToString();
         }
+
+        return roman.ToString();
     }
 }

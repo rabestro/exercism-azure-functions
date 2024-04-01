@@ -1,0 +1,2 @@
+###
+GET {{host}}/api/scrabble-score?word=EXQLUSIVE
