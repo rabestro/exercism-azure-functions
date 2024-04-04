@@ -1,9 +1,10 @@
+using Exercism.Solution;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace Exercism.Solution;
+namespace Exercism.Function;
 
 public class ScrabbleScoreFunction(ILogger<ScrabbleScoreFunction> logger)
 {

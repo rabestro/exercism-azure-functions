@@ -1,11 +1,12 @@
 using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
+using Exercism.Solution;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Exercism.Solution;
+namespace Exercism.Function;
 
 public class DartsFunction
 {
