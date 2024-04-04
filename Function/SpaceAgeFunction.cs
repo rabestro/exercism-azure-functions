@@ -1,10 +1,12 @@
 using System.Net;
+using System.Net.Mime;
 using System.Text.Json;
+using Exercism.Solution;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Exercism.Solution;
+namespace Exercism.Function;
 
 public class SpaceAgeFunction(ILogger<SpaceAgeFunction> logger)
 {
@@ -53,7 +55,7 @@ public class SpaceAgeFunction(ILogger<SpaceAgeFunction> logger)
             _ => new { error = "not a planet" }
         };
 
-        response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+        response.Headers.Add("Content-Type", MediaTypeNames.Application.Json);
         await response.WriteStringAsync(JsonSerializer.Serialize(result));
         return response;
     }

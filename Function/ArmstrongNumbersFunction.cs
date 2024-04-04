@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace Exercism.Solution;
+namespace Exercism.Function;
 
 public class ArmstrongNumbersFunction(ILogger<ArmstrongNumbersFunction> logger)
 {
