@@ -22,7 +22,7 @@ public class DartsFunction
         if (!double.TryParse(xString, out var x) || !double.TryParse(yString, out var y))
         {
             var errorResponse = req.CreateResponse(HttpStatusCode.BadRequest);
-            await errorResponse.WriteStringAsync("Please provide valid x and y coordinates.");
+            await errorResponse.WriteStringAsync("Invalid input: Please provide valid x and y coordinates. Both x and y must be numbers.");
             return errorResponse;
         }
 
