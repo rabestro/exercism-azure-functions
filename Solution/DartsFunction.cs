@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Mime;
 using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -30,7 +31,7 @@ public class DartsFunction
         var response = req.CreateResponse(HttpStatusCode.OK);
         var result = JsonSerializer.Serialize(new { score });
 
-        response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+        response.Headers.Add("Content-Type", MediaTypeNames.Application.Json);
         await response.WriteStringAsync(result);
 
         return response;
