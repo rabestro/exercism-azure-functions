@@ -29,17 +29,17 @@ public class SpaceAgeFunction(ILogger<SpaceAgeFunction> logger)
         var spaceAge = new SpaceAge(seconds);
         var response = req.CreateResponse(HttpStatusCode.OK);
 
-        var result = planet switch
+        object result = planet switch
         {
-            "Earth" => JsonSerializer.Serialize(new { age = spaceAge.OnEarth() }),
-            "Mercury" => JsonSerializer.Serialize(new { age = spaceAge.OnMercury() }),
-            "Venus" => JsonSerializer.Serialize(new { age = spaceAge.OnVenus() }),
-            "Mars" => JsonSerializer.Serialize(new { age = spaceAge.OnMars() }),
-            "Jupiter" => JsonSerializer.Serialize(new { age = spaceAge.OnJupiter() }),
-            "Saturn" => JsonSerializer.Serialize(new { age = spaceAge.OnSaturn() }),
-            "Uranus" => JsonSerializer.Serialize(new { age = spaceAge.OnUranus() }),
-            "Neptune" => JsonSerializer.Serialize(new { age = spaceAge.OnNeptune() }),
-            "" or null => JsonSerializer.Serialize(new
+            "Earth" => new { age = spaceAge.OnEarth() },
+            "Mercury" => new { age = spaceAge.OnMercury() },
+            "Venus" => new { age = spaceAge.OnVenus() },
+            "Mars" => new { age = spaceAge.OnMars() },
+            "Jupiter" => new { age = spaceAge.OnJupiter() },
+            "Saturn" => new { age = spaceAge.OnSaturn() },
+            "Uranus" => new { age = spaceAge.OnUranus() },
+            "Neptune" => new { age = spaceAge.OnNeptune() },
+            "" or null => new
             {
                 earth = spaceAge.OnEarth(),
                 mercury = spaceAge.OnMercury(),
@@ -49,12 +49,12 @@ public class SpaceAgeFunction(ILogger<SpaceAgeFunction> logger)
                 saturn = spaceAge.OnSaturn(),
                 uranus = spaceAge.OnUranus(),
                 neptune = spaceAge.OnNeptune()
-            }),
-            _ => "not a planet"
+            },
+            _ => new { error = "not a planet" }
         };
 
         response.Headers.Add("Content-Type", "application/json; charset=utf-8");
-        await response.WriteStringAsync(result);
+        await response.WriteStringAsync(JsonSerializer.Serialize(result));
         return response;
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Exercism.Solution;
 
-public class RomanNumeralsFunction(ILogger<ArmstrongNumbersFunction> logger)
+public class RomanNumeralsFunction(ILogger<RomanNumeralsFunction> logger)
 {
     [Function("roman-numerals")]
     public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
