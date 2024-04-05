@@ -5,6 +5,7 @@ using Exercism.Solution;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 namespace Exercism.Function;
 
@@ -32,7 +33,7 @@ public class DartsFunction
         var response = req.CreateResponse(HttpStatusCode.OK);
         var result = JsonSerializer.Serialize(new { score });
 
-        response.Headers.Add("Content-Type", MediaTypeNames.Application.Json);
+        response.Headers.Add(HeaderNames.ContentType, MediaTypeNames.Application.Json);
         await response.WriteStringAsync(result);
 
         return response;
