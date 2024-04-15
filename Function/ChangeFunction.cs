@@ -14,16 +14,15 @@ public class ChangeFunction
     [Function("change")]
     public async Task<HttpResponseData> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
-        HttpRequestData req,
+        HttpRequestData req, [FromBody] ChangeInput data,
         FunctionContext executionContext)
     {
         var logger = executionContext.GetLogger("ChangeFunction");
         logger.LogInformation("C# HTTP trigger function processed a request.");
 
         var requestBody = await req.ReadAsStringAsync();
-        var data = JsonSerializer.Deserialize<ChangeInput>(requestBody);
 
-        if (data?.Coins == null || data.Target == null)
+        if (data?.Coins == null)
         {
             var errorResponse = req.CreateResponse(HttpStatusCode.BadRequest);
             await errorResponse.WriteStringAsync("Please provide coins and target.");
@@ -32,7 +31,7 @@ public class ChangeFunction
 
         try
         {
-            var fewestCoins = Change.FindFewestCoins(data.Coins, data.Target.Value);
+            var fewestCoins = Change.FindFewestCoins(data.Coins, data.Target);
             var response = req.CreateResponse(HttpStatusCode.OK);
 
             var result = JsonSerializer.Serialize(new { fewestCoins });
@@ -50,9 +49,5 @@ public class ChangeFunction
         }
     }
 
-    private class ChangeInput
-    {
-        public int[] Coins { get; set; }
-        public int? Target { get; set; }
-    }
+    public record ChangeInput(int[] Coins, int Target);
 }
