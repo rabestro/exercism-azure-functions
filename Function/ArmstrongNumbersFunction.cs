@@ -8,20 +8,16 @@ namespace Exercism.Function;
 public class ArmstrongNumbersFunction(ILogger<ArmstrongNumbersFunction> logger)
 {
     [Function("armstrong-numbers")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+    public IActionResult Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "armstrong-numbers/{number:long?}")]
+        HttpRequest req, long? number)
     {
         logger.LogInformation("C# HTTP trigger function processed a request.");
 
-        var numberString = req.Query["number"];
-
-        if (string.IsNullOrEmpty(numberString) || !long.TryParse(numberString, out var number))
-        {
+        if (number == null)
             return new BadRequestObjectResult(new { message = "Please pass a number on the query string" });
-        }
 
-        var isArmstrongNumber = IsArmstrongNumber(number);
-
-        return new OkObjectResult(new { isArmstrongNumber });
+        return new OkObjectResult(new { isArmstrongNumber = IsArmstrongNumber(number.Value) });
     }
 
     private static bool IsArmstrongNumber(long number)
