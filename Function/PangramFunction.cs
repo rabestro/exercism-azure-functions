@@ -20,9 +20,8 @@ public class PangramFunction
         var logger = executionContext.GetLogger("PangramFunction");
         logger.LogInformation("Processing 'pangram' request...");
 
-        var requestBody = await req.ReadAsStringAsync();
-        var data = JsonSerializer.Deserialize<SentenceInput>(requestBody);
-        var sentence = data?.Sentence;
+        var data = await JsonSerializer.DeserializeAsync<SentenceInput>(req.Body);
+        var sentence = data?.sentence;
         
         var response = req.CreateResponse();
         response.Headers.Add(HeaderNames.ContentType, MediaTypeNames.Application.Json);
@@ -45,9 +44,5 @@ public class PangramFunction
         await response.WriteStringAsync(result);
         return response;
     }
-
-    private class SentenceInput
-    {
-        public string? Sentence { get; init; }
-    }
+    private record SentenceInput(string sentence);
 }

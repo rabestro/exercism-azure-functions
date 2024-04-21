@@ -15,13 +15,9 @@ public class ScrabbleScoreFunction(ILogger<ScrabbleScoreFunction> logger)
 
         var word = req.Query["word"];
 
-        if (string.IsNullOrEmpty(word) )
-        {
+        if (string.IsNullOrEmpty(word))
             return new BadRequestObjectResult(new { message = "Please pass a 'word' on the query string" });
-        }
 
-        var score = ScrabbleScore.Score(word!);
-
-        return new OkObjectResult(new { score });
+        return new OkObjectResult(new { score = ScrabbleScore.Score(word!) });
     }
 }
