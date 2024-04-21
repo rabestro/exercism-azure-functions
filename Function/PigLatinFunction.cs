@@ -23,7 +23,10 @@ public class PigLatinFunction
         string sentence = data?.sentence;
         logger.LogInformation("Processing sentence:" + sentence);
 
-        if (sentence == null) return new BadRequestObjectResult("Please pass a sentence in the request body json");
+        if (sentence == null)
+        {
+            return new BadRequestObjectResult("Please pass a sentence in the request body json");
+        }
 
         var pigLatin = PigLatin.Translate(sentence);
         logger.LogInformation($"Translated sentence to Pig Latin: {pigLatin}");

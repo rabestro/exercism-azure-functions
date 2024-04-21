@@ -33,3 +33,7 @@ POST /api/piglatin
 ?? body pigLatin isString
 ?? body pigLatin endsWith ay
 ?? body pigLatin.length equals {{pangram.sentence.length + "ay".length}}
+
+### Pythagorean Triplet
+GET /api/pythagorean-triplet/{{$random.integer(12, 1000)}}
+
