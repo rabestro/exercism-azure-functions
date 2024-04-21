@@ -6,17 +6,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Exercism.Function;
 
-public class ChangeFunction
+public class ChangeFunction(ILogger<ChangeFunction> logger)
 {
     [Function("change")]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post")]
         HttpRequestData req,
         [Microsoft.Azure.Functions.Worker.Http.FromBody]
-        ChangeInput data,
-        FunctionContext executionContext)
+        ChangeInput data)
     {
-        var logger = executionContext.GetLogger("ChangeFunction");
         logger.LogInformation("ChangeFunction processed a request.");
 
         try

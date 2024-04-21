@@ -1,0 +1,35 @@
+@inputLength = 40
+
+### Pangram Function
+# a sentence is a pangram if it contains each of the 26 letters in the English alphabet.
+# The function returns true if a sentence is a pangram, and false if it is not.
+
+@randomString = {{$random.alphabetic(inputLength)}}
+
+# @name pangram
+POST /api/pangram
+{
+    "sentence": "{{randomString}}"
+}
+
+?? status equals 200
+?? header content-type includes json
+?? body isPangram isBoolean
+?? body sentence isString
+?? body sentence.length equals {{inputLength}}
+?? body sentence equals {{randomString}}
+
+### Pig Latin Function
+# @ref pangram
+POST /api/piglatin
+{
+    "sentence": "{{pangram.sentence}}"
+}
+
+?? duration < 1000
+?? status equals 200
+?? header content-type includes json
+?? body sentence isString
+?? body pigLatin isString
+?? body pigLatin endsWith ay
+?? body pigLatin.length equals {{pangram.sentence.length + "ay".length}}
